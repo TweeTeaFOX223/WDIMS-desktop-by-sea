@@ -13,7 +13,7 @@
 ## アプリの概要 
 [World Dev Info Meta Searcher（WDIMS）](https://github.com/TweeTeaFOX223/world-dev-info-metasearcher)のデスクトップ版です。  名前は「World Dev Info Meta Searcher：Desktop by Node.js SEA」。短くすると「WDIMS:D-SEA」です。
   
-お手元のPCにダウンロードして実行することで起動する形式になっています。プライバシーを重視する方、お手元で設定管理したい方にオススメな仕様になっています。exeファイルのサイズは80MB程度です。  
+お手元のPCにアプリをダウンロードして実行する形式になっています。プライバシーを重視する方、お手元で設定管理したい方にオススメな仕様になっています。実行ファイルのサイズは80MB程度です。    
   
 <br>
   

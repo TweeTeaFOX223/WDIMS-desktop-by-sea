@@ -68,19 +68,23 @@ jobs:
           prerelease: false
           generate_release_notes: true
           body: |
-            ## WDIMS Desktop - Local Server Version
-            ### Installation
-            1. Download the appropriate archive for your platform:
+            ## World Dev Info Meta Searcher（WDIMS）のデスクトップ版
+
+            ### インストール方法
+            1. このファイルをダウンロードしてください(Windowsのみ):
                - Windows: `WDIMS_desktop_win32_x64.zip`
-            #    - macOS: `WDIMS_desktop_darwin_arm64.zip`
-            #    - Linux: `WDIMS_desktop_linux_x64.zip`
-            2. Extract the archive
-            3. Run the executable inside the `WDIMS_desktop` folder
+
+            2. DLしたZipファイルを解凍してください。
+            3. 中に入っているexeファイルを実行すると動きます(詳細はREADME)。
+
             ### Verification
-            All artifacts are signed with GitHub Artifact Attestations.
-            You can verify the authenticity using:
+            すべてのアーティファクトは GitHub Artifact Attestations で署名されています。
+            以下のコマンドを実行することで真正性を検証できます。
+            ```bash
             gh attestation verify <file> --owner ${{ github.repository_owner }}
-            ### Changes
-            See the auto-generated release notes below.
+            ```
+
+            ### 変更点
+            以下の自動生成されたリリースノートをご覧ください。
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

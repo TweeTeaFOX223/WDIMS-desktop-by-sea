@@ -1,7 +1,11 @@
-# WDIMS-desktop-by-sea
+# WDIMS-desktop-by-sea  
 ![screenshot](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot.png)  
 ![screenshot2](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot2.png)  
 ![screenshot3](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot3.png)  
+↓はWeb版と同じ部分。
+![screenshot3A](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot3A.png)  
+![screenshot3B](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot3B.png)  
+
 ![screenshot4](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot4.png)  
 
 <br>
@@ -9,7 +13,7 @@
 ## アプリの概要 
 [World Dev Info Meta Searcher（WDIMS）](https://github.com/TweeTeaFOX223/world-dev-info-metasearcher)のデスクトップ版です。  名前は「World Dev Info Meta Searcher：Desktop by Node.js SEA」。短くすると「WDIMS:D-SEA」です。
   
-お手元のPCにダウンロードして実行することで起動する形式になっています。プライバシーを重視する方、お手元で設定管理しない方にオススメな仕様になっています。exeファイルのサイズは80MB程度です。  
+お手元のPCにダウンロードして実行することで起動する形式になっています。プライバシーを重視する方、お手元で設定管理したい方にオススメな仕様になっています。exeファイルのサイズは80MB程度です。  
   
 <br>
   
@@ -19,30 +23,42 @@ https://github.com/TweeTeaFOX223/world-dev-info-metasearcher
   
 <br>
   
-これ(デスクトップ版)で追加された機能の一覧  
+**これ(デスクトップ版)で追加された機能の一覧**  
 - ブラウザのローカルストレージではなく、PC内のフォルダにJSON形式でプロファイル(設定ファイル)を保存する形式に変更されています。
   - 異なるブラウザから同じ設定を使用することができます。  
   - 手動でJSONファイル削除をしない限り、検索設定が絶対に消えません。  
   - Web版と違いGitHubに検索内容が残る可能性が一切ありません。  
   
 - 複数のプロファイルを切り替える機能があります。
-  -  「表示設定」と「検索エンジン設定」をセットにしたやつを名前付きで管理、切り替えることができます。
+  -  「表示設定」と「検索エンジン設定」のセットを名前付きで管理、切り替えることができます。
   -  プロファイルの削除と複製、新規プロファイルの作成をUI上で行うことが可能です。
   
 - Web Socket(Socket.IO)による「設定変更を異なるブラウザ間でリアルタイム同期する機能」があります。
   - 複数のウィンドウで、あるプロファイルを同時に使用している場合、「ウィンドウAでプロファイル1の検索エンジン設定を編集」→「ウィンドウBの方にも即座に反映される」という仕様になっています。  
   
-- アプリの起動時にローカルホストにアクセスするブラウザを指定しておくことが可能です。  
+- アプリ起動時にローカルホストにアクセスするブラウザを指定しておくことが可能です。  
   - 手動でPC内のブラウザのパス＋実行引数を書くことで設定できます。  
-  - シークレットモードのブラウザで使用したい場合に便利です。  
+  - ブラウザのシークレットモードでアプリを使用したい場合に便利です。  
+  
+<br>
+  
+
+## ★このアプリを使用する方法！
+### GitHubのReleaseからダウンロード
+  
+GitHubのReleaseからzipファイルをダウンロードして解答します。フォルダの中に入っている`wdims.exe`を実行すると動きます。  
+
+`wdims.exe`を実行するとこのようなコンソールのウィンドウが出ます。これが出ている状態で適当なブラウザから `http://localhost:3000` にアクセスすることでアプリを使用できます。ウィンドウがアプリの本体なので、これを閉じるとアプリが終了します。  
+![screenshot6](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot6.png)  
+  
 <br>
   
 ### 技術スタックの説明  
-「TypeScriptだけでローカルホストにアクセスして起動するタイプのデスクトップアプリを作る実験」という側面が大きいアプリです。「クライアント：Preact」＋「サーバー：Hono.js(RPC使用)」＋「リアルタイム同期：Socket.IO」＋「exeファイル化：Node.js SEA」という実験的なスタックで作成されています。
-
-Electronは、「Node.jsとChromiumを両方含む関係でバイナリサイズが大きくなる」、「普段遣いのブラウザ上で使用するアプリ」ということで、今回は採用しませんでした。このアプリもSEAのビルドでNode.js丸ごと含む関係で80MB程度になっているので、あまり変わらないかもしれない…？   
-
-Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情報量多く安定ですが、TypeScriptに加えてRustも必要になるので採用しませんでした。大体の部分を作り終わった後に見ましたが、「TypeScriptだけで十分アプリ作れる」という情報もあるので、このアプリと全く同じ機能を持つTauri版も作るかもしれないです。 
+- 「TypeScriptだけでローカルホストにアクセスして起動するタイプのデスクトップアプリを作る実験」という側面が強いアプリです。「クライアント：Preact」＋「サーバー：Hono.js(RPC使用)」＋「リアルタイム同期：Socket.IO」＋「exeファイル化：Node.js SEA」という実験的なスタックで作成されています。このスタックの採用例があるか探したけど見つけられなかったのでおそらく初だと思います。    
+  
+-  Electronは、「Node.jsとChromiumを両方含む関係でバイナリサイズが大きくなる」、「普段遣いのブラウザ上で使用するアプリなので、Chromiumの機能が不要」ということで、今回は採用しませんでした。このアプリもSEAのビルドでNode.jsを丸ごと含む関係で80MB程度になっているので、あまり変わらないかもしれない…？  
+  
+- Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情報量多く安定ですが、TypeScriptに加えてRustの理解も必要になるので採用しませんでした。大体の部分を作り終わった後に見ましたが、「[TypeScriptだけ書くのでもデスクトップアプリを十分作れる](https://zenn.dev/tris/articles/tskaigi2025-tauri-with-only-ts)」という情報もあるらしいので、このアプリと全く同じ機能を持つTauri版も作るかもしれないです。 
   
   
 | 技術項目 | 使用しているもの |
@@ -61,25 +77,20 @@ Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情�
   
 <br>
   
-## ★このアプリを使用する方法！
-### 方法A：GitHubのReleaseからダウンロード
-  
-<br>
-  
 ## READMEの目次
 - [WDIMS-desktop-by-sea](#wdims-desktop-by-sea)
   - [アプリの概要](#アプリの概要)
     - [Web版に無い機能](#web版に無い機能)
-    - [技術スタックの説明](#技術スタックの説明)
   - [★このアプリを使用する方法！](#このアプリを使用する方法)
-    - [方法A：GitHubのReleaseからダウンロード](#方法agithubのreleaseからダウンロード)
+    - [GitHubのReleaseからダウンロード](#githubのreleaseからダウンロード)
+    - [技術スタックの説明](#技術スタックの説明)
   - [READMEの目次](#readmeの目次)
   - [アプリの動作＆改変方法](#アプリの動作改変方法)
     - [［0］:インストールが必要なもの](#0インストールが必要なもの)
     - [［1］：リポジトリをクローン](#1リポジトリをクローン)
     - [［2］：依存関係をインストール](#2依存関係をインストール)
-  - [［3A］：そのままアプリを起動](#3aそのままアプリを起動)
-  - [［3B］：Node.js SEAでアプリをexeにビルド](#3bnodejs-seaでアプリをexeにビルド)
+    - [［3A］：そのままアプリを起動](#3aそのままアプリを起動)
+    - [［3B］：Node.js SEAでアプリをexeにビルド](#3bnodejs-seaでアプリをexeにビルド)
   - [プロファイル初期設定のカスタム方法](#プロファイル初期設定のカスタム方法)
 - [プロジェクトのファイル構成](#プロジェクトのファイル構成)
   - [検索エンジン初期設定に入れたサイトの一覧](#検索エンジン初期設定に入れたサイトの一覧)
@@ -89,9 +100,9 @@ Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情�
 <br>
   
 ## アプリの動作＆改変方法
-
+  
 ### ［0］:インストールが必要なもの
-
+  
 これらのインストールが必須です。node.jsの公式サイトからDLできます。一番新しいLTSのやつを使えば多分動きます。
 https://nodejs.org/ja/download
   
@@ -104,17 +115,17 @@ https://nodejs.org/ja/download
 ファイルを入れたいディレクトでリポジトリをクローンし、cdでディレクトリに入ってください。gitがない場合はZIPでダウンロードして解凍してください。
 ```
 git clone https://github.com/TweeTeaFOX223/WDIMS-desktop-by-sea.git
-cd world-dev-info-metasearcher 
+cd WDIMS-desktop-by-sea 
 ```
 ### ［2］：依存関係をインストール
-npmで以下のコマンドを実行すると動きます
+npmで以下のコマンドを実行してください。
 ```bash
 # 依存関係のインストール
 npm install
 ```
 
-## ［3A］：そのままアプリを起動
-開発用のやつです。そのままアプリを起動します。
+### ［3A］：そのままアプリを起動
+開発用のやつです。そのままアプリを起動します。起動した状態で設定を変更すると`config\profiles`にJSONで保存されます。  
 
 ```bash
 npm run start
@@ -124,9 +135,9 @@ npm run start
 # ２：バックエンドでサーバー(Hono.js)を起動
 # ３：http://localhost:3000 に適当なブラウザでアクセスするとアプリ動く
 ```
-
-## ［3B］：Node.js SEAでアプリをexeにビルド
-
+  
+### ［3B］：Node.js SEAでアプリをexeにビルド
+GitHub Releaseでバイナリとして配布する用のやつです。
 ```bash
 npm run build:sea
 
@@ -134,13 +145,12 @@ npm run build:sea
 # WDIMS_desktopに配布用のフォルダが作成されます。
 # WDIMS_desktop_win32_x64.zipに↑を圧縮したやつが生成されます。
 ```
-
-
+  
 ## プロファイル初期設定のカスタム方法
 
-`config\profiles` を編集して、デフォルトのプロファイルを編集できます。
-
-`npm run start`でアプリを実際に起動してUI上で編集をした方が早いです。
+`config\profiles` を編集して、デフォルトのプロファイルを編集できます。Node.js SEAでビルドしたやつの初期設定もこれと同じになります。    
+  
+`npm run start`でアプリを実際に起動してUI上で編集をした方が早いです。  
   
 <br>
   
@@ -237,7 +247,6 @@ npm run build:sea
 <br>
   
 ## 検索エンジン初期設定に入れたサイトの一覧
-
   
 <br>
   

@@ -46,35 +46,56 @@ https://github.com/TweeTeaFOX223/world-dev-info-metasearcher
 ## ★このアプリを使用する方法！
 ### GitHubのReleaseからダウンロード
   
-GitHubのReleaseからzipファイルをダウンロードして解答します。フォルダの中に入っている`wdims.exe`を実行すると動きます。  
-
+配布はWindowsのみに対応です。GitHubのReleaseからzipファイルをダウンロードして解凍、フォルダの中に入っている`wdims.exe`を実行すると動きます。  
+**https://github.com/TweeTeaFOX223/WDIMS-desktop-by-sea/releases**  
+  
 `wdims.exe`を実行するとこのようなコンソールのウィンドウが出ます。これが出ている状態で適当なブラウザから `http://localhost:3000` にアクセスすることでアプリを使用できます。ウィンドウがアプリの本体なので、これを閉じるとアプリが終了します。  
 ![screenshot6](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot6.png)  
   
 <br>
   
-### 技術スタックの説明  
+## 技術関係の説明  
+
+### 技術項目の表  
+  
+| 技術項目                     | 使用しているもの                            |
+| ---------------------------- | ------------------------------------------- |
+| AI エージェント              | Claude Code（Sonnet 4.5）                   |
+| プログラミング言語           | TypeScript                                  |
+| フロントエンドフレームワーク | Preact                                      |
+| バックエンドフレームワーク   | Hono.js                                     |
+| 型安全なAPI通信              | Hono RPC                                    |
+| ランタイムバリデーション     | Zod                                         |
+| リアルタイム通信             | Socket.IO                                   |
+| CSS                          | 通常のCSS                                   |
+| パッケージ管理とタスク処理   | npm                                         |
+| ビルドツール                 | Vite (Rolldown)                             |
+| exeファイル化                | Node.js SEA (Single Executable Application) |
+  
+
+### TypeScriptだけでデスクトップアプリ
+
+#### Node.js SEAとElectronとTauri
 - 「TypeScriptだけでローカルホストにアクセスして起動するタイプのデスクトップアプリを作る実験」という側面が強いアプリです。「クライアント：Preact」＋「サーバー：Hono.js(RPC使用)」＋「リアルタイム同期：Socket.IO」＋「exeファイル化：Node.js SEA」という実験的なスタックで作成されています。このスタックの採用例があるか探したけど見つけられなかったのでおそらく初だと思います。    
   
 -  Electronは、「Node.jsとChromiumを両方含む関係でバイナリサイズが大きくなる」、「普段遣いのブラウザ上で使用するアプリなので、Chromiumの機能が不要」ということで、今回は採用しませんでした。このアプリもSEAのビルドでNode.jsを丸ごと含む関係で80MB程度になっているので、あまり変わらないかもしれない…？  
   
 - Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情報量多く安定ですが、TypeScriptに加えてRustの理解も必要になるので採用しませんでした。大体の部分を作り終わった後に見ましたが、「[TypeScriptだけ書くのでもデスクトップアプリを十分作れる](https://zenn.dev/tris/articles/tskaigi2025-tauri-with-only-ts)」という情報もあるらしいので、このアプリと全く同じ機能を持つTauri版も作るかもしれないです。 
+
+### GitHub ActionsによるRelease用成果物の真正性の証明
+#### Artifact AttestationsとImmutable Release
+ソースコードのビルドとzipファイルのリリースに、GitHub ActionsのArtifact AttestationsとImmutable Release機能を使っているので、「プロジェクトのコードをビルドして生成されたもの」という保証付きです。各リリースを見てみると「🔏 Immutable」の鍵マークが付いているはず。    
+
+詳細はGitHub Actionsのymlファイルを見てください。  
+https://github.com/TweeTeaFOX223/WDIMS-desktop-by-sea/blob/main/.github/workflows/release.yml  
+
   
+GitHub公式：Artifact Attestations(成果物構成証明)  
+https://docs.github.com/ja/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations  
+GitHub公式：Immutable Release(変更不可リリース)  
+https://docs.github.com/ja/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases  
   
-| 技術項目 | 使用しているもの |
-|---------|-----------------|
-| AI エージェント | Claude Code（Sonnet 4.5） |
-| プログラミング言語 | TypeScript |
-| フロントエンドフレームワーク | Preact |
-| バックエンドフレームワーク | Hono.js |
-| 型安全なAPI通信 | Hono RPC |
-| ランタイムバリデーション | Zod |
-| リアルタイム通信 | Socket.IO |
-| CSS | 通常のCSS |
-| パッケージ管理とタスク処理 | npm |
-| ビルドツール | Vite (Rolldown) |
-| exeファイル化 | Node.js SEA (Single Executable Application) |
-  
+
 <br>
   
 ## READMEの目次
@@ -83,7 +104,12 @@ GitHubのReleaseからzipファイルをダウンロードして解答します�
     - [Web版に無い機能](#web版に無い機能)
   - [★このアプリを使用する方法！](#このアプリを使用する方法)
     - [GitHubのReleaseからダウンロード](#githubのreleaseからダウンロード)
-    - [技術スタックの説明](#技術スタックの説明)
+  - [技術関係の説明](#技術関係の説明)
+    - [技術項目の表](#技術項目の表)
+    - [TypeScriptだけでデスクトップアプリ](#typescriptだけでデスクトップアプリ)
+      - [Node.js SEAとElectronとTauri](#nodejs-seaとelectronとtauri)
+    - [GitHub ActionsによるRelease用成果物の真正性の証明](#github-actionsによるrelease用成果物の真正性の証明)
+      - [Artifact AttestationsとImmutable Release](#artifact-attestationsとimmutable-release)
   - [READMEの目次](#readmeの目次)
   - [アプリの動作＆改変方法](#アプリの動作改変方法)
     - [［0］:インストールが必要なもの](#0インストールが必要なもの)
@@ -91,10 +117,8 @@ GitHubのReleaseからzipファイルをダウンロードして解答します�
     - [［2］：依存関係をインストール](#2依存関係をインストール)
     - [［3A］：そのままアプリを起動](#3aそのままアプリを起動)
     - [［3B］：Node.js SEAでアプリをexeにビルド](#3bnodejs-seaでアプリをexeにビルド)
-  - [プロファイル初期設定のカスタム方法](#プロファイル初期設定のカスタム方法)
-- [プロジェクトのファイル構成](#プロジェクトのファイル構成)
-  - [検索エンジン初期設定に入れたサイトの一覧](#検索エンジン初期設定に入れたサイトの一覧)
-  - [GitHub Release(GitHub Actionsの設定)](#github-releasegithub-actionsの設定)
+    - [プロファイル初期設定のカスタム方法](#プロファイル初期設定のカスタム方法)
+  - [プロジェクトのファイル構成](#プロジェクトのファイル構成)
   - [ライセンス](#ライセンス)
   
 <br>
@@ -146,7 +170,7 @@ npm run build:sea
 # WDIMS_desktop_win32_x64.zipに↑を圧縮したやつが生成されます。
 ```
   
-## プロファイル初期設定のカスタム方法
+### プロファイル初期設定のカスタム方法
 
 `config\profiles` を編集して、デフォルトのプロファイルを編集できます。Node.js SEAでビルドしたやつの初期設定もこれと同じになります。    
   
@@ -154,7 +178,8 @@ npm run build:sea
   
 <br>
   
-# プロジェクトのファイル構成
+
+## プロジェクトのファイル構成
 
 ```
 ├── ClaudeCode用
@@ -245,13 +270,6 @@ npm run build:sea
 ```
   
 <br>
-  
-## 検索エンジン初期設定に入れたサイトの一覧
-  
-<br>
-  
-## GitHub Release(GitHub Actionsの設定)
-
   
 ## ライセンス  
   

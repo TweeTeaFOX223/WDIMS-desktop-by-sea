@@ -79,9 +79,7 @@ jobs:
             ### Verification
             All artifacts are signed with GitHub Artifact Attestations.
             You can verify the authenticity using:
-```bash
             gh attestation verify <file> --owner ${{ github.repository_owner }}
-```
             ### Changes
             See the auto-generated release notes below.
         env:

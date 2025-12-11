@@ -1,0 +1,478 @@
+{
+  "tabs": [
+    {
+      "id": "general",
+      "name": "各国検索",
+      "engines": [
+        {
+          "id": "google",
+          "name": "Google",
+          "url": "https://www.google.com/search?q={query}",
+          "description": "アメリカの定番検索エンジン"
+        },
+        {
+          "id": "Yahoo!JAPAN",
+          "name": "Yahoo! JAPAN",
+          "url": "https://search.yahoo.co.jp/search?p={query}",
+          "description": "日本のヤフーの検索エンジン"
+        },
+        {
+          "id": "Yahoo!",
+          "name": "Yahoo!",
+          "url": "https://search.yahoo.com/search?p={query}",
+          "description": "アメリカのヤフーの検索エンジン"
+        },
+        {
+          "id": "bing",
+          "name": "Bing",
+          "url": "https://www.bing.com/search?q={query}",
+          "description": "アメリカのMicrosoftの検索エンジン"
+        },
+        {
+          "id": "duckduckgo",
+          "name": "DuckDuckGo",
+          "url": "https://duckduckgo.com/?q={query}",
+          "description": "アメリカのプライバシー重視の検索エンジン"
+        },
+        {
+          "id": "Startpage",
+          "name": "Startpage",
+          "url": "https://www.startpage.com/do/dsearch?q={query}",
+          "description": "オランダのプライバシー重視の検索エンジン"
+        },
+        {
+          "id": "Ecosia",
+          "name": "Ecosia",
+          "url": "https://www.ecosia.org/search?method=index&q={query}",
+          "description": "ドイツの環境重視の検索エンジン"
+        },
+        {
+          "id": "NAVER",
+          "name": "NAVER",
+          "url": "https://search.naver.com/search.naver?where=nexearch&ie=utf8&query={query}",
+          "description": "韓国の検索エンジン"
+        },
+        {
+          "id": "Daum",
+          "name": "Daum",
+          "url": "https://search.daum.net/search?w=tot&q={query}",
+          "description": "韓国の検索エンジン"
+        },
+        {
+          "id": "WEB.DE",
+          "name": "WEB.DE",
+          "url": "https://suche.web.de/?origin=HP&q={query}",
+          "description": "ドイツの検索エンジン"
+        },
+        {
+          "id": "FIREBALL",
+          "name": "FIREBALL",
+          "url": "https://fireball.com/search/?f=web&q={query}",
+          "description": "ドイツの検索エンジン"
+        },
+        {
+          "id": "Baidu",
+          "name": "Baidu(百度)",
+          "url": "https://www.baidu.com/s?ie=utf-8&wd={query}",
+          "description": "中国の検索エンジン"
+        },
+        {
+          "id": "Sogou",
+          "name": "Sogou(搜狗搜索)",
+          "url": "https://www.sogou.com/web?query={query}",
+          "description": "中国の検索エンジン"
+        },
+        {
+          "id": "Haosou",
+          "name": "Haosou(360搜索)",
+          "url": "https://www.so.com/s?ie=utf-8&q={query}",
+          "description": "中国の検索エンジン"
+        },
+        {
+          "id": "CocCoc",
+          "name": "Coc Coc",
+          "url": "https://coccoc.com/search?query={query}",
+          "description": "ベトナムの検索エンジン"
+        },
+        {
+          "id": "Yandex",
+          "name": "Yandex",
+          "url": "https://yandex.ru/search/?text={query}",
+          "description": "ロシアの検索エンジン"
+        },
+        {
+          "id": "Qmamu",
+          "name": "Qmamu",
+          "url": "https://qmamu.com/ja/search?q={query}",
+          "description": "インドの検索エンジン"
+        },
+        {
+          "id": "Seznam.cz",
+          "name": "Seznam.cz",
+          "url": "https://search.seznam.cz/?q={query}",
+          "description": "チェコの検索エンジン"
+        },
+        {
+          "id": "Entireweb.com",
+          "name": "Entireweb.com",
+          "url": "https://www.entireweb.com/search.php?q={query}",
+          "description": "スウェーデンの検索エンジン"
+        },
+        {
+          "id": "Walla!",
+          "name": "Walla!",
+          "url": "https://search.walla.co.il/?q={query}",
+          "description": "イスラエルの検索エンジン"
+        },
+        {
+          "id": "search.ch",
+          "name": "search.ch",
+          "url": "https://search.ch/tel/?all={query}",
+          "description": "スイスの検索エンジン"
+        }
+      ]
+    },
+    {
+      "id": "general-blog",
+      "name": "一般情報",
+      "engines": [
+        {
+          "id": "wikipediaJa",
+          "name": "wikipedia(日本)",
+          "url": "https://ja.wikipedia.org/w/index.php?title=%E7%89%B9%E5%88%A5:%E6%A4%9C%E7%B4%A2&ns0=1&search={query}",
+          "description": "日本語wikipediaの記事検索"
+        },
+        {
+          "id": "wikipediaJa",
+          "name": "wikipedia(英語)",
+          "url": "https://en.wikipedia.org/w/index.php?search={query}&title=Special%3ASearch&ns0=1",
+          "description": "英語wikipediaの記事検索"
+        },
+        {
+          "id": "note",
+          "name": "note",
+          "url": "https://note.com/search?q={query}&context=note&mode=search",
+          "description": "日本のブログサービス"
+        },
+        {
+          "id": "はてなブログ",
+          "name": "はてなブログ",
+          "url": "https://www.google.com/search?q={query}+(site%3Ahatenablog.com+OR+site%3Ahatenablog.jp+OR+site%3Ahateblo.jp+OR+site%3Ahatenadiary.com+OR+site%3Ahatenadiary.jp)&client=firefox-b-d&sca_esv=d90e220b7d9405c9&ei=Zh0tabfIEdLf1e8Pl8qe2AI&ved=0ahUKEwi3k-iuypuRAxXSb_UHHRelBysQ4dUDCBE&uact=5&oq=%E3%83%86%E3%82%B9%E3%83%88+(site%3Ahatenablog.com+OR+site%3Ahatenablog.jp+OR+site%3Ahateblo.jp+OR+site%3Ahatenadiary.com+OR+site%3Ahatenadiary.jp)",
+          "description": "日本のブログサービス。グーグルの検索クエリ使用"
+        },
+        {
+          "id": "Medium",
+          "name": "Medium",
+          "url": "https://medium.com/search?q={query}",
+          "description": "英語のブログサービス。開発記事も多い"
+        },
+        {
+          "id": "Amebaブログ",
+          "name": "Amebaブログ",
+          "url": "https://search.ameba.jp/search/{query}.html",
+          "description": "日本のブログサービス"
+        },
+        {
+          "id": "ニコニコ大百科",
+          "name": "ニコニコ大百科",
+          "url": "https://dic.nicovideo.jp/s/al/t/{query}/rev_created/desc/1-?query_type=t",
+          "description": "日本語の百科事典サイト"
+        },
+        {
+          "id": "ピクシブ百科事典",
+          "name": "ピクシブ百科事典",
+          "url": "https://dic.pixiv.net/search?query={query}",
+          "description": "日本語の百科事典サイト"
+        },
+        {
+          "id": "NAVER blog",
+          "name": "NAVER blog",
+          "url": "https://section.blog.naver.com/Search/Post.naver?keyword={query}",
+          "description": "韓国のブログサービス"
+        },
+        {
+          "id": "Namu Wiki",
+          "name": "Namu Wiki",
+          "url": "https://namu.wiki/Search?q={query}",
+          "description": "韓国語の百科事典サイト"
+        },
+        {
+          "id": "Baidu百科(百度百科)",
+          "name": "Baidu百科(百度百科)",
+          "url": "https://baike.baidu.com/search?word={query}",
+          "description": "中国語の百科事典サイト"
+        },
+        {
+          "id": "Grokipedia",
+          "name": "Grokipedia",
+          "url": "https://grokipedia.com/search?q={query}",
+          "description": "Xの生成AI(Grok)により記事生成するwiki"
+        },
+        {
+          "id": "Google Scholar",
+          "name": "Google Scholar",
+          "url": "https://scholar.google.com/scholar?hl=ja&as_sdt=0%2C5&q={query}&btnG=",
+          "description": "グーグルの論文検索エンジン"
+        },
+        {
+          "id": "CiNii Research",
+          "name": "CiNii Research",
+          "url": "https://cir.nii.ac.jp/all?q={query}",
+          "description": "日本語の論文検索エンジン"
+        }
+      ]
+    },
+    {
+      "id": "tech-blogs",
+      "name": "開発技術",
+      "engines": [
+        {
+          "id": "zenn",
+          "name": "Zenn",
+          "url": "https://zenn.dev/search?q={query}",
+          "description": "日本語の開発情報共有コミュニティ"
+        },
+        {
+          "id": "qiita",
+          "name": "Qiita",
+          "url": "https://qiita.com/search?q={query}",
+          "description": "日本語の開発情報共有コミュニティ"
+        },
+        {
+          "id": "devto",
+          "name": "dev.to",
+          "url": "https://dev.to/search?q={query}",
+          "description": "英語の開発者コミュニティ。英語以外もある"
+        },
+        {
+          "id": "HackerNoon",
+          "name": "HackerNoon",
+          "url": "https://hackernoon.com/search?query={query}",
+          "description": "英語の開発者コミュニティ"
+        },
+        {
+          "id": "Stack Overflow",
+          "name": "Stack Overflow",
+          "url": "https://ja.stackoverflow.com/search?q={query}",
+          "description": "日本語の開発者QAコミュニティ"
+        },
+        {
+          "id": "HackerNews",
+          "name": "HackerNews",
+          "url": "https://hn.algolia.com/?q={query}",
+          "description": "英語のハッカーコミュニティ"
+        },
+        {
+          "id": "freeCodeCamporg",
+          "name": "freeCodeCamp.org",
+          "url": "https://www.freecodecamp.org/news/search/?query={query}",
+          "description": "英語の開発者コミュニティ(投稿は要申請)"
+        },
+        {
+          "id": "ドクセル",
+          "name": "ドクセル",
+          "url": "https://www.docswell.com/search?q={query}",
+          "description": "日本語のスライド共有サービス"
+        },
+        {
+          "id": "Slideshare",
+          "name": "Slideshare",
+          "url": "https://www.slideshare.net/search?searchFrom=header&q={query}",
+          "description": "アメリカのスライド共有サービス"
+        },
+        {
+          "id": "Speaker Deck",
+          "name": "Speaker Deck",
+          "url": "https://cse.google.com/cse?cx=010150859881542981030%3Ahqhxyxpwtc4&ie=UTF-8&q={query}&sa=Search",
+          "description": "アメリカのスライド共有サービス"
+        },
+        {
+          "id": "CSDN",
+          "name": "CSDN",
+          "url": "https://so.csdn.net/so/search?q={query}",
+          "description": "中国語の開発者コミュニティ"
+        },
+        {
+          "id": "Juejin",
+          "name": "Juejin (掘金)",
+          "url": "https://juejin.cn/search?query={query}",
+          "description": "中国語の開発者コミュニティ"
+        },
+        {
+          "id": "Velog",
+          "name": "Velog",
+          "url": "https://velog.io/search?q={query}",
+          "description": "韓国語の開発者コミュニティ"
+        },
+        {
+          "id": "Teratail",
+          "name": "Teratail",
+          "url": "https://teratail.com/search?q={query}",
+          "description": "日本語の開発者QAコミュニティ"
+        }
+      ]
+    },
+    {
+      "id": "SNS",
+      "name": "SNS関連",
+      "engines": [
+        {
+          "id": "X(Twitter)",
+          "name": "X(旧Twitter)",
+          "url": "https://x.com/search?q={query}",
+          "description": "X(Twitter)、要ログイン"
+        },
+        {
+          "id": "hatena",
+          "name": "はてなブックマーク",
+          "url": "https://b.hatena.ne.jp/search/text?q={query}",
+          "description": "はてなのブックマークサイト"
+        },
+        {
+          "id": "Reddit",
+          "name": "Reddit",
+          "url": "https://www.reddit.com/search/?q={query}",
+          "description": "英語中心のフォーラム型SNS"
+        },
+        {
+          "id": "BlueSky",
+          "name": "BlueSky",
+          "url": "https://bsky.app/search?q={query}",
+          "description": "BlueSky、要ログイン"
+        }
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "engines": [
+        {
+          "id": "github-repos",
+          "name": "Repositories",
+          "url": "https://github.com/search?q={query}&type=repositories",
+          "description": "リポジトリを検索"
+        },
+        {
+          "id": "github-code",
+          "name": "Code",
+          "url": "https://github.com/search?q={query}&type=code",
+          "description": "コードを検索"
+        },
+        {
+          "id": "github-issues",
+          "name": "Issues",
+          "url": "https://github.com/search?q={query}&type=issues",
+          "description": "Issue を検索"
+        },
+        {
+          "id": "github-users",
+          "name": "Users",
+          "url": "https://github.com/search?q={query}&type=users",
+          "description": "ユーザーを検索"
+        }
+      ]
+    },
+    {
+      "id": "video",
+      "name": "動画関係",
+      "engines": [
+        {
+          "id": "youtube",
+          "name": "YouTube",
+          "url": "https://www.youtube.com/results?search_query={query}",
+          "description": "最大の動画サイト。開発動画多い"
+        },
+        {
+          "id": "bilibili",
+          "name": "bilibili",
+          "url": "https://search.bilibili.com/all?keyword={query}",
+          "description": "中国の動画サイト。開発動画多い"
+        },
+        {
+          "id": "nicovideo",
+          "name": "ニコニコ動画",
+          "url": "https://www.nicovideo.jp/search/{query}",
+          "description": "日本の動画サイト"
+        },
+        {
+          "id": "Dailymotion",
+          "name": "Dailymotion",
+          "url": "https://www.dailymotion.com/search/{query}/top-results",
+          "description": "フランスの動画サイト"
+        },
+        {
+          "id": "VK Video",
+          "name": "VK Video",
+          "url": "https://vkvideo.ru/?q={query}",
+          "description": "ロシアの動画サイト"
+        },
+        {
+          "id": "RUTUBE",
+          "name": "RUTUBE",
+          "url": "https://rutube.ru/search/?query={query}",
+          "description": "ロシアの動画サイト"
+        },
+        {
+          "id": "TikTok",
+          "name": "TikTok",
+          "url": "https://www.tiktok.com/search?q={query}",
+          "description": "中国のショート動画サイト"
+        }
+      ]
+    },
+    {
+      "id": "shopping",
+      "name": "ショッピング",
+      "engines": [
+        {
+          "id": "zennbooks",
+          "name": "Zenn books",
+          "url": "https://zenn.dev/search?q={query}&page=1&source=books",
+          "description": "Zennの電子書籍マーケット"
+        },
+        {
+          "id": "techbook",
+          "name": "技術書典",
+          "url": "https://techbookfest.org/market/search?q={query}",
+          "description": "技術書のマーケット"
+        },
+        {
+          "id": "udemy",
+          "name": "Udemy",
+          "url": "https://www.udemy.com/courses/search/?src=ukw&q={query}",
+          "description": "有料動画販売サイト。開発動画多い"
+        },
+        {
+          "id": "dotinstall",
+          "name": "ドットインストール",
+          "url": "https://dotinstall.com/search?q={query}&f=topbar",
+          "description": "サブスクの開発学習サイト"
+        },
+        {
+          "id": "BOOTH",
+          "name": "BOOTH",
+          "url": "https://booth.pm/ja/search/{query}",
+          "description": "創作物の総合マーケット"
+        },
+        {
+          "id": "amazon",
+          "name": "Amazon",
+          "url": "https://www.amazon.co.jp/s?k={query}",
+          "description": "アマゾン"
+        },
+        {
+          "id": "rakuten",
+          "name": "楽天市場",
+          "url": "https://search.rakuten.co.jp/search/mall/{query}/",
+          "description": "楽天の通販"
+        },
+        {
+          "id": "yahoo-shopping",
+          "name": "Yahoo!ショッピング",
+          "url": "https://shopping.yahoo.co.jp/search?p={query}",
+          "description": "Yahoo! ショッピング"
+        }
+      ]
+    }
+  ]
+}

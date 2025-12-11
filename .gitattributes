@@ -1,0 +1,3 @@
+# ビルドで生成した単一HTML（配布用）を
+# GitHubの統計のやつから除外して言語比を正常にする
+dist-offline/index.html linguist-vendored

@@ -1,0 +1,10 @@
+{
+  "theme": "light",
+  "cardScale": 1.0,
+  "fontSize": 1.0,
+  "minCardsPerRow": 4,
+  "showName": true,
+  "showDescription": true,
+  "showUrl": true,
+  "applyMinCardsOnMobile": false
+}

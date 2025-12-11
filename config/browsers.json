@@ -1,0 +1,35 @@
+{
+  "browsers": [
+    {
+      "name": "OSのデフォルトブラウザ",
+      "path": "",
+      "enabled": true,
+      "args": []
+    },
+    {
+      "name": "Chrome",
+      "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "enabled": false,
+      "args": [
+        "--new-window"
+      ]
+    },
+    {
+      "name": "Firefox",
+      "path": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+      "enabled": false,
+      "args": [
+        "-new-window"
+      ]
+    },
+    {
+      "name": "Edge",
+      "path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "enabled": false,
+      "args": [
+        "--new-window"
+      ]
+    }
+  ],
+  "defaultPort": 3000
+}

@@ -80,12 +80,24 @@ https://github.com/TweeTeaFOX223/world-dev-info-metasearcher
   
 -  Electronは、「Node.jsとChromiumを両方含む関係でバイナリサイズが大きくなる」、「普段遣いのブラウザ上で使用するアプリなので、Chromiumの機能が不要」ということで、今回は採用しませんでした。このアプリもSEAのビルドでNode.jsを丸ごと含む関係で80MB程度になっているので、あまり変わらないかもしれない…？  
   
-- Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情報量多く安定ですが、TypeScriptに加えてRustの理解も必要になるので採用しませんでした。大体の部分を作り終わった後に見ましたが、「[TypeScriptだけ書くのでもデスクトップアプリを十分作れる](https://zenn.dev/tris/articles/tskaigi2025-tauri-with-only-ts)」という情報もあるらしいので、このアプリと全く同じ機能を持つTauri版も作るかもしれないです。 
-
+- Tauriは、バイナリサイズが小さい（10MB未満？）＋人気で情報量多く安定ですが、TypeScriptに加えてRustの理解も必要になるので採用しませんでした。大体の部分を作り終わった後に見ましたが、「[TypeScriptだけ書くのでもデスクトップアプリを十分作れる](https://zenn.dev/tris/articles/tskaigi2025-tauri-with-only-ts)」という情報もあるので、このアプリと全く同じ機能を持つTauri版も作るかもしれないです。  
+  
+#### Node.js SEAとBunかDenoによるビルド
+このプロジェクトはNode.js SEAでビルドしているわけですが、ビルド成功するまでの労力がかなり大きかったです(`scripts\build-sea.ts`で色々とやっている通りで非常に複雑)。  
+  
+作り終わった後の技術調査で知ったのですが、ランタイムにNode.jsではなく[BunかDenoを採用していれば、組み込みのビルド機能で楽に実行ファイル化できた](https://developer.mamezou-tech.com/blogs/2024/05/20/bun-cross-compile/)ようです。  
+  
+ランタイムにBunを採用する場合だとサーバー処理に関して、[Hono.jsに加えてもElysia.jsも、動作速度や型安全な開発の関係で有力な選択肢に入ってくるようでした](https://elysiajs.com/migrate/from-hono)。  
+  
+#### 「サーバー＆クライアントをexe化」VS「Tauri(TypeScriptのみ)」  
+今回は最終的に各ブラウザを使用する形式(各サイトの検索結果を各ブラウザで開く)かつ、[サーバー上で動かす版の作成](https://github.com/TweeTeaFOX223/world-dev-info-metasearcher/issues/1)も想定しているアプリのため、これらのような技術が候補になってくるわけですが…。 
+  
+アプリ内だけで操作が完結するアプリの場合、Tauri(TypeScriptのみ)が現状ベストな選択肢になってくる気がします。  
+  
 ### GitHub ActionsによるRelease用成果物の真正性の証明
 #### Artifact AttestationsとImmutable Release
 ソースコードのビルドとzipファイルのリリースに、GitHub ActionsのArtifact AttestationsとImmutable Release機能を使っているので、「プロジェクトのコードをビルドして生成されたもの」という保証付きです。各リリースを見てみると「🔏 Immutable」の鍵マークが付いているはず。    
-
+  
 詳細はGitHub Actionsのymlファイルを見てください。  
 https://github.com/TweeTeaFOX223/WDIMS-desktop-by-sea/blob/main/.github/workflows/release.yml  
 
@@ -108,6 +120,8 @@ https://docs.github.com/ja/code-security/supply-chain-security/understanding-you
     - [技術項目の表](#技術項目の表)
     - [TypeScriptだけでデスクトップアプリ](#typescriptだけでデスクトップアプリ)
       - [Node.js SEAとElectronとTauri](#nodejs-seaとelectronとtauri)
+      - [Node.js SEAとBunかDenoによるビルド](#nodejs-seaとbunかdenoによるビルド)
+      - [「サーバー＆クライアントをexe化」VS「Tauri(TypeScriptのみ)」](#サーバークライアントをexe化vstauritypescriptのみ)
     - [GitHub ActionsによるRelease用成果物の真正性の証明](#github-actionsによるrelease用成果物の真正性の証明)
       - [Artifact AttestationsとImmutable Release](#artifact-attestationsとimmutable-release)
   - [READMEの目次](#readmeの目次)

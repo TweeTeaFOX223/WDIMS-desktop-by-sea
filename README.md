@@ -58,19 +58,19 @@ https://github.com/TweeTeaFOX223/world-dev-info-metasearcher
 
 ### 技術項目の表  
   
-| 技術項目                     | 使用しているもの                            |
-| ---------------------------- | ------------------------------------------- |
-| AI エージェント              | Claude Code（Sonnet 4.5）                   |
-| プログラミング言語           | TypeScript                                  |
-| フロントエンドフレームワーク | Preact                                      |
-| バックエンドフレームワーク   | Hono.js                                     |
-| 型安全なAPI通信              | Hono RPC                                    |
-| ランタイムバリデーション     | Zod                                         |
-| リアルタイム通信             | Socket.IO                                   |
-| CSS                          | 通常のCSS                                   |
-| パッケージ管理とタスク処理   | npm                                         |
-| ビルドツール                 | Vite (Rolldown)                             |
-| exeファイル化                | Node.js SEA (Single Executable Application) |
+| 技術項目                     | 使用しているもの                                     |
+| ---------------------------- | ---------------------------------------------------- |
+| AI エージェント              | Claude Code（Sonnet 4.5）                            |
+| プログラミング言語           | TypeScript（~5.9.3）                                 |
+| フロントエンドフレームワーク | Preact（^10.28.2）                                   |
+| バックエンドフレームワーク   | Hono.js（^4.12.3）                                   |
+| 型安全なAPI通信              | Hono RPC（hono ^4.12.3 / @hono/node-server ^1.8.0） |
+| ランタイムバリデーション     | Zod（^3.24.1）                                       |
+| リアルタイム通信             | Socket.IO（^4.6.1）                                  |
+| CSS                          | 通常のCSS                                            |
+| パッケージ管理とタスク処理   | npm（v11.7.0）                                       |
+| ビルドツール                 | Vite（npm:rolldown-vite@7.2.5）                      |
+| exeファイル化                | Node.js SEA（Single Executable Application）         |
   
 
 ### TypeScriptだけでデスクトップアプリ

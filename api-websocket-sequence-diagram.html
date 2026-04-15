@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WDIMS API / WebSocket Sequence Diagrams</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --panel: #fffaf3;
+      --panel-alt: #f0e3d3;
+      --text: #1f1a17;
+      --muted: #6b5f54;
+      --accent: #aa4a44;
+      --accent-2: #355c7d;
+      --border: #d7c5b2;
+      --shadow: 0 18px 40px rgba(56, 39, 24, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic UI", "Hiragino Sans", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(170, 74, 68, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(53, 92, 125, 0.15), transparent 30%),
+        linear-gradient(180deg, #f8f2ea 0%, var(--bg) 100%);
+    }
+
+    main {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 20px 72px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(255, 250, 243, 0.94), rgba(240, 227, 211, 0.88));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+    }
+
+    p, li {
+      line-height: 1.7;
+    }
+
+    .lead {
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px 20px;
+    }
+
+    .card strong {
+      color: var(--accent);
+    }
+
+    section {
+      margin-top: 28px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--accent-2);
+      font-size: 0.92rem;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #f7ede3;
+      padding: 0.15em 0.45em;
+      border-radius: 6px;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin: 10px 0 0;
+    }
+
+    .mermaid-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+      padding: 8px 0 0;
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      background: #fff3ea;
+      border-radius: 14px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="hero">
+      <h1>WDIMS の API / WebSocket 動作分析</h1>
+      <p class="lead">
+        このページは、実装コードを読み取って <code>REST API</code> と <code>Socket.IO</code> の流れを整理したものです。
+        中心は <code>server/routes.ts</code> の API 群、<code>server/websocket.ts</code> の同期イベント、そして最終的な保存先である
+        <code>config/</code> 配下の JSON / テキストファイルです。
+      </p>
+      <div class="meta">
+        <span class="pill">HTTP サーバー: Hono + @hono/node-server</span>
+        <span class="pill">リアルタイム同期: Socket.IO</span>
+        <span class="pill">保存先: config/profiles / config/browsers.json / active-profile.txt</span>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <h3>REST の役割</h3>
+          <p>初期表示、プロファイル管理、ブラウザ設定、明示的な保存処理を担当します。</p>
+        </div>
+        <div class="card">
+          <h3>WebSocket の役割</h3>
+          <p>同じプロファイルを開いている別ウィンドウへ、設定変更を即時反映します。</p>
+        </div>
+        <div class="card">
+          <h3>重要な実態</h3>
+          <p><strong>設定の正本は REST API</strong> で、WebSocket は他クライアントへの同期通知だけを担当します。</p>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <h2>1. 起動直後の読み込みフロー</h2>
+      <p class="small">
+        `App.tsx` 初回マウント時の流れです。まずウィンドウ単位の localStorage を確認し、無ければサーバーのアクティブプロファイルを取得します。
+      </p>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as User
+    participant App as client/App.tsx
+    participant LS as localStorage
+    participant API as REST /api
+    participant PM as profileManager
+    participant Files as config files
+    participant WS as Socket.IO server
+
+    User->>App: アプリを開く
+    App->>LS: loadActiveProfile()
+    alt localStorage にプロファイルあり
+        LS-->>App: profileName
+    else localStorage にプロファイルなし
+        App->>API: GET /api/profiles/active/current
+        API->>PM: getActiveProfile()
+        PM->>Files: read config/active-profile.txt
+        Files-->>PM: active profile
+        PM-->>API: profileName
+        API-->>App: { profileName }
+        App->>LS: saveActiveProfile(profileName)
+    end
+    App->>API: GET /api/profiles/:name
+    API->>PM: getProfile(profileName)
+    PM->>Files: read *.wdims_ui.json
+    PM->>Files: read *.wdims_engine.json
+    Files-->>PM: displaySettings + searchEngines
+    PM-->>API: Profile JSON
+    API-->>App: profile data
+    App->>WS: initializeWebSocket()
+    WS-->>App: connect
+        </pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. 表示設定 / 検索エンジン設定の更新フロー</h2>
+      <p class="small">
+        設定画面や編集操作の保存は、まず REST で保存し、その直後に WebSocket で他クライアントへ通知します。
+        現在の WebSocket サーバーは保存処理を持たず、通知専用です。
+      </p>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as 編集したユーザー
+    participant AppA as client/App.tsx (送信元)
+    participant API as REST /api
+    participant PM as profileManager
+    participant Files as profile JSON files
+    participant WS as Socket.IO server
+    participant AppB as 別クライアント
+
+    User->>AppA: 設定変更 / タブ編集 / エンジン編集
+    AppA->>AppA: setState() で即時反映
+    alt 表示設定変更
+        AppA->>API: PUT /api/profiles/:name/display-settings
+        API->>PM: updateDisplaySettings(profileName, settings)
+        PM->>Files: overwrite *.wdims_ui.json
+        Files-->>PM: saved
+        PM-->>API: ok
+        API-->>AppA: 200 OK
+        AppA->>WS: emit "display-settings-update"
+        WS-->>AppA: emit "display-settings-update-success"
+        WS-->>AppB: broadcast "display-settings-changed"
+        AppB->>AppB: activeProfileName が一致すれば setSettings()
+    else 検索エンジン/タブ変更
+        AppA->>API: PUT /api/profiles/:name/search-engines
+        API->>PM: updateSearchEngines(profileName, engines)
+        PM->>Files: overwrite *.wdims_engine.json
+        Files-->>PM: saved
+        PM-->>API: ok
+        API-->>AppA: 200 OK
+        AppA->>WS: emit "search-engines-update"
+        WS-->>AppA: emit "search-engines-update-success"
+        WS-->>AppB: broadcast "search-engines-changed"
+        AppB->>AppB: activeProfileName が一致すれば setConfig()
+    end
+        </pre>
+      </div>
+      <div class="note">
+        この構成では、保存は REST のバリデーション付き経路に一本化されます。別クライアントは WebSocket で受けた内容を表示へ反映します。
+      </div>
+    </section>
+
+    <section>
+      <h2>3. プロファイル管理 API フロー</h2>
+      <p class="small">
+        プロファイル作成、削除、複製、リネーム、切り替えはすべて REST 中心です。クライアント側の `profiles-changed` 通知は現状使われていません。
+      </p>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as User
+    participant PMgr as client/ProfileManager.tsx
+    participant API as REST /api
+    participant PM as profileManager
+    participant Files as config directory
+    participant App as client/App.tsx
+
+    alt 新規作成
+        User->>PMgr: プロファイル作成
+        PMgr->>API: POST /api/profiles
+        API->>PM: createProfile(name, copyFrom?)
+        PM->>Files: mkdir config/profiles/:name
+        PM->>Files: write :name.wdims_ui.json / :name.wdims_engine.json
+        API-->>PMgr: 201 Created
+        PMgr->>API: GET /api/profiles
+    else 削除
+        User->>PMgr: プロファイル削除
+        PMgr->>API: DELETE /api/profiles/:name
+        API->>PM: deleteProfile(name)
+        PM->>Files: rm profile directory
+        API-->>PMgr: 200 OK
+        PMgr->>API: GET /api/profiles
+    else 複製
+        User->>PMgr: プロファイル複製
+        PMgr->>API: POST /api/profiles/:name/clone
+        API->>PM: cloneProfile(source, newName)
+        PM->>Files: read source files
+        PM->>Files: write newName files
+        API-->>PMgr: 201 Created
+    else 名前変更
+        User->>PMgr: プロファイル名変更
+        PMgr->>API: PUT /api/profiles/:name/rename
+        API->>PM: renameProfile(oldName, newName)
+        PM->>Files: rename directory
+        API-->>PMgr: 200 OK
+        opt 変更対象が現在使用中
+            PMgr->>API: PUT /api/profiles/active/current
+            API->>PM: setActiveProfile(newName)
+            PM->>Files: write config/active-profile.txt
+            API-->>PMgr: 200 OK
+            PMgr->>App: onProfileSwitch(newName)
+            App->>API: GET /api/profiles/:name
+        end
+    else 切り替え
+        User->>PMgr: 別プロファイルへ切り替え
+        PMgr->>API: PUT /api/profiles/active/current
+        API->>PM: setActiveProfile(profileName)
+        PM->>Files: write config/active-profile.txt
+        API-->>PMgr: 200 OK
+        PMgr->>App: onProfileSwitch(profileName)
+        App->>API: GET /api/profiles/:name
+    end
+        </pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. ブラウザ設定 API とブラウザ起動</h2>
+      <p class="small">
+        ブラウザ設定は WebSocket を使わず、`config/browsers.json` への読み書きと OS コマンド実行で完結します。
+      </p>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as User
+    participant UI as client/BrowserSettings.tsx
+    participant API as REST /api
+    participant BL as browserLauncher
+    participant Files as config/browsers.json
+    participant OS as OS / child_process.exec
+
+    User->>UI: ブラウザ設定画面を開く
+    UI->>API: GET /api/browsers
+    API->>BL: loadBrowsersConfig()
+    BL->>Files: read config/browsers.json
+    Files-->>BL: config
+    BL-->>API: config
+    API-->>UI: config JSON
+
+    alt 設定保存
+        User->>UI: 保存
+        UI->>API: PUT /api/browsers
+        API->>BL: saveBrowsersConfig(config)
+        BL->>Files: overwrite config/browsers.json
+        API-->>UI: 200 OK
+    else 特定ブラウザ起動
+        User->>UI: このブラウザでアプリを開く
+        UI->>API: POST /api/browsers/launch/:browserName
+        API->>BL: launchSpecificBrowser(browserName, defaultPort)
+        BL->>Files: read config/browsers.json
+        BL->>OS: exec(browserPath args http://localhost:port)
+        OS-->>BL: success / failure
+        BL-->>API: result
+        API-->>UI: 200 OK or 400
+    end
+        </pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. 実装済みだが現状ほぼ使われていない WebSocket イベント</h2>
+      <ul>
+        <li><code>profile-switch</code> / <code>profile-switched</code>: サーバーとクライアントサービスには実装がありますが、現行 UI の主経路では使っていません。プロファイル切り替えは REST で行っています。</li>
+        <li><code>profiles-changed</code> / <code>profiles-list-changed</code>: サーバーイベントはありますが、`ProfileManager.tsx` から emit されておらず、一覧更新は毎回 REST 再取得です。</li>
+        <li><code>*-update-success</code>: 送信元に成功通知していますが、クライアント側で受信ハンドラを登録していません。</li>
+      </ul>
+      <div class="note">
+        設計意図としては「複数ウィンドウ同期」がありますが、実際に UI が利用しているのは <code>display-settings-changed</code> と
+        <code>search-engines-changed</code> の 2 系統が中心です。
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      themeVariables: {
+        primaryColor: "#fff7ee",
+        primaryTextColor: "#1f1a17",
+        primaryBorderColor: "#c88a6f",
+        lineColor: "#6a4a3b",
+        secondaryColor: "#f4e3d6",
+        tertiaryColor: "#e7eef5",
+        actorBkg: "#f8efe3",
+        actorBorder: "#aa4a44",
+        actorTextColor: "#1f1a17",
+        signalColor: "#355c7d",
+        labelBoxBkgColor: "#efe1cf",
+        labelBoxBorderColor: "#b68f72",
+        noteBkgColor: "#fff1dd",
+        noteBorderColor: "#aa4a44"
+      },
+      sequence: {
+        useMaxWidth: true,
+        wrap: true,
+        diagramMarginX: 24,
+        diagramMarginY: 18
+      }
+    });
+  </script>
+</body>
+</html>

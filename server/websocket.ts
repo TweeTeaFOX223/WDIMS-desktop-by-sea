@@ -1,5 +1,4 @@
 import type { Server as SocketIOServer } from 'socket.io';
-import { updateDisplaySettings, updateSearchEngines } from './utils/profileManager.js';
 import type { DisplaySettings, SearchEnginesConfig } from './types/index.js';
 
 interface DisplaySettingsUpdateData {
@@ -24,9 +23,8 @@ export function setupWebSocket(io: SocketIOServer): SocketIOServer {
     socket.on('display-settings-update', async (data: DisplaySettingsUpdateData) => {
       try {
         const { profileName, settings } = data;
-        await updateDisplaySettings(profileName, settings);
 
-        // 他のクライアントにブロードキャスト（送信者以外）
+        // 保存は REST API を正本とし、WebSocket は他クライアント同期のみを担当する
         socket.broadcast.emit('display-settings-changed', { profileName, settings });
 
         // 送信者に成功を通知
@@ -42,9 +40,8 @@ export function setupWebSocket(io: SocketIOServer): SocketIOServer {
     socket.on('search-engines-update', async (data: SearchEnginesUpdateData) => {
       try {
         const { profileName, engines } = data;
-        await updateSearchEngines(profileName, engines);
 
-        // 他のクライアントにブロードキャスト
+        // 保存は REST API を正本とし、WebSocket は他クライアント同期のみを担当する
         socket.broadcast.emit('search-engines-changed', { profileName, engines });
 
         // 送信者に成功を通知

@@ -7,7 +7,36 @@
 ![screenshot3B](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot3B.png)  
 
 ![screenshot4](https://raw.githubusercontent.com/TweeTeaFOX223/WDIMS-desktop-by-sea/refs/heads/main/ScreenShot4.png)  
-
+  
+<br>  
+  
+## READMEの目次  
+- [WDIMS-desktop-by-sea](#wdims-desktop-by-sea)
+  - [READMEの目次](#readmeの目次)
+  - [アプリの概要](#アプリの概要)
+    - [Web版に無い機能](#web版に無い機能)
+  - [★このアプリを使用する方法！](#このアプリを使用する方法)
+    - [GitHubのReleaseからダウンロード](#githubのreleaseからダウンロード)
+  - [技術関係の説明](#技術関係の説明)
+    - [技術項目の表](#技術項目の表)
+    - [REST API と WebSocket の使い分け](#rest-api-と-websocket-の使い分け)
+    - [シーケンス図について](#シーケンス図について)
+    - [TypeScriptだけでデスクトップアプリ](#typescriptだけでデスクトップアプリ)
+      - [Node.js SEAとElectronとTauri](#nodejs-seaとelectronとtauri)
+      - [Node.js SEAとBunかDenoによるビルド](#nodejs-seaとbunかdenoによるビルド)
+      - [「サーバー＆クライアントをexe化」VS「Tauri(TypeScriptのみ)」](#サーバークライアントをexe化vstauritypescriptのみ)
+    - [GitHub ActionsによるRelease用成果物の真正性の証明](#github-actionsによるrelease用成果物の真正性の証明)
+      - [Artifact AttestationsとImmutable Release](#artifact-attestationsとimmutable-release)
+  - [アプリの動作＆改変方法](#アプリの動作改変方法)
+    - [［0］:インストールが必要なもの](#0インストールが必要なもの)
+    - [［1］：リポジトリをクローン](#1リポジトリをクローン)
+    - [［2］：依存関係をインストール](#2依存関係をインストール)
+    - [［3A］：そのままアプリを起動](#3aそのままアプリを起動)
+    - [［3B］：Node.js SEAでアプリをexeにビルド](#3bnodejs-seaでアプリをexeにビルド)
+    - [プロファイル初期設定のカスタム方法](#プロファイル初期設定のカスタム方法)
+  - [プロジェクトのファイル構成](#プロジェクトのファイル構成)
+  - [ライセンス](#ライセンス)
+  
 <br>
   
 ## アプリの概要 
@@ -72,6 +101,16 @@ https://github.com/TweeTeaFOX223/world-dev-info-metasearcher
 | ビルドツール                 | Vite（npm:rolldown-vite@7.2.5）                      |
 | exeファイル化                | Node.js SEA（Single Executable Application）         |
   
+### REST API と WebSocket の使い分け
+
+このアプリでは、設定の保存や読み込みの正本は REST API 側にでやっています。具体的には、プロファイルの取得・作成・削除・複製・リネーム、アクティブプロファイルの切り替え、表示設定の保存、検索エンジン設定の保存、ブラウザ設定の保存と起動は Hono.js の API ルートを通して行っています。保存系の API では Zod によるバリデーションもかけているため、「実際にファイルへ書き込む経路」は REST 側に一本化しています。  
+  
+WebSocket(Socket.IO) は、同じプロファイルを別ブラウザや別ウィンドウで開いているときのリアルタイム同期専用です。送信元クライアントが REST で保存したあと、その変更内容を WebSocket で他のクライアントへ通知し、通知を受けた側が画面表示を更新する形にしています。つまり、「保存は REST」「他クライアントへの即時反映は WebSocket」という役割分担になっているというわけです。  
+  
+### シーケンス図について
+
+この REST と WebSocket の流れを実装ベースで確認しやすいように、ルートディレクトリに `api-websocket-sequence-diagram.html` を置いています。Mermaid によるシーケンス図で、「起動時のプロファイル読み込み」「設定変更時の REST 保存と WebSocket 通知」「プロファイル管理 API」「ブラウザ設定 API」の流れをまとめています。設計メモというよりかは、現在のコードの動きを整理した資料です。htmlをそのままブラウザで開くと図が見れます(CDNからマーメイド呼んでるのでネット接続が必要)。  
+  
 
 ### TypeScriptだけでデスクトップアプリ
 
@@ -108,33 +147,6 @@ GitHub公式：Immutable Release(変更不可リリース)
 https://docs.github.com/ja/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases  
   
 
-<br>
-  
-## READMEの目次
-- [WDIMS-desktop-by-sea](#wdims-desktop-by-sea)
-  - [アプリの概要](#アプリの概要)
-    - [Web版に無い機能](#web版に無い機能)
-  - [★このアプリを使用する方法！](#このアプリを使用する方法)
-    - [GitHubのReleaseからダウンロード](#githubのreleaseからダウンロード)
-  - [技術関係の説明](#技術関係の説明)
-    - [技術項目の表](#技術項目の表)
-    - [TypeScriptだけでデスクトップアプリ](#typescriptだけでデスクトップアプリ)
-      - [Node.js SEAとElectronとTauri](#nodejs-seaとelectronとtauri)
-      - [Node.js SEAとBunかDenoによるビルド](#nodejs-seaとbunかdenoによるビルド)
-      - [「サーバー＆クライアントをexe化」VS「Tauri(TypeScriptのみ)」](#サーバークライアントをexe化vstauritypescriptのみ)
-    - [GitHub ActionsによるRelease用成果物の真正性の証明](#github-actionsによるrelease用成果物の真正性の証明)
-      - [Artifact AttestationsとImmutable Release](#artifact-attestationsとimmutable-release)
-  - [READMEの目次](#readmeの目次)
-  - [アプリの動作＆改変方法](#アプリの動作改変方法)
-    - [［0］:インストールが必要なもの](#0インストールが必要なもの)
-    - [［1］：リポジトリをクローン](#1リポジトリをクローン)
-    - [［2］：依存関係をインストール](#2依存関係をインストール)
-    - [［3A］：そのままアプリを起動](#3aそのままアプリを起動)
-    - [［3B］：Node.js SEAでアプリをexeにビルド](#3bnodejs-seaでアプリをexeにビルド)
-    - [プロファイル初期設定のカスタム方法](#プロファイル初期設定のカスタム方法)
-  - [プロジェクトのファイル構成](#プロジェクトのファイル構成)
-  - [ライセンス](#ライセンス)
-  
 <br>
   
 ## アプリの動作＆改変方法
@@ -201,6 +213,7 @@ npm run build:sea
 │   └── WDIMS_LocalServer_Requirements.md # プロジェクト要件定義書
 ├── LICENSE                               # ライセンスファイル
 ├── README.md                             # プロジェクト説明書
+├── api-websocket-sequence-diagram.html   # API / WebSocket のシーケンス図説明ページ
 ├── client                                # フロントエンド（Preact）
 │   ├── App.tsx                          # メインアプリケーションコンポーネント
 │   ├── components                       # UIコンポーネント群

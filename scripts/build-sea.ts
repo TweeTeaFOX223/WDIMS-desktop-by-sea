@@ -261,8 +261,8 @@ try {
   const archiveName = `${RELEASE_NAME}.zip`;
 
   if (platform === 'win32') {
-    // Windowsの場合はPowerShellを使用
-    execSync(`powershell -Command "Compress-Archive -Path '${OUTPUT_DIR}' -DestinationPath '${archiveName}' -Force"`, { stdio: 'inherit' });
+    // Windowsでは tar.exe (bsdtar) の方が環境差分で失敗しにくい
+    execSync(`tar -a -c -f ${archiveName} ${OUTPUT_DIR}`, { stdio: 'inherit' });
   } else {
     // Mac/Linuxの場合はzipコマンド
     execSync(`zip -r ${archiveName} ${OUTPUT_DIR}`, { stdio: 'inherit' });

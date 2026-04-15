@@ -35,6 +35,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",
     "jiti": "^2.6.1",
+    "postject": "^1.0.0-alpha.6",
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
